@@ -1,10 +1,11 @@
 import React from "react";
-import { Notes, NotesForm } from "./components";
+import { NavigationBar, Notes, NotesForm } from "./components";
 
 class NotesApp extends React.Component {
   render() {
     return (
       <>
+        <NavigationBar></NavigationBar>
         <NotesForm></NotesForm>
         <Notes></Notes>
       </>

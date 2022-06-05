@@ -1,4 +1,5 @@
 import React from "react";
+import "./style.css";
 
 class NotesForm extends React.Component {
   render() {
