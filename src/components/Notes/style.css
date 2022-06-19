@@ -1,0 +1,40 @@
+.notes-container {
+  margin: 30px 0px 30px 0px;
+  padding: 20px;
+}
+
+.notes {
+  margin-top: 20px;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.notes-title {
+  width: 100%;
+  padding: 3px;
+}
+
+.note {
+  min-width: 250px;
+  max-width: 300px;
+  height: auto;
+  background-color: var(--dark-3);
+  padding: 10px;
+  gap: 13px;
+  flex-grow: 1;
+  overflow-wrap: break-word;
+}
+
+.note-button {
+    flex-grow: 1;
+    background-color: transparent;
+    border:none;
+}
+
+.note-delete-button{
+    background-color: var(--dark-red);
+}
+
+.note-archive-button{
+    background-color: var(--dark-yellow);
+}

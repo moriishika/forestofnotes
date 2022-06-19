@@ -6,11 +6,18 @@
   color: white;
 }
 
+input, textarea, select,option{
+  color : black
+}
 :root {
   --dark-1: #261c2c;
   --dark-2: #3e2c41;
   --dark-3: #5c527f;
   --dark-4: #6e85b2;
+  --dark-blue: #2754af;
+  --dark-red: #982958;
+  --dark-yellow: #9d9d53;
+  --dark-green: #6eb279;
 }
 
 ::-webkit-scrollbar {
@@ -30,10 +37,20 @@
 }
 
 html,
-body {
+body,
+#root {
   background-color: #261c2c;
   width: 100%;
   min-height: 100vh;
+}
+
+button {
+  padding: 5px 10px 5px 10px;
+}
+
+footer {
+  padding: 60px;
+  text-align: center;
 }
 
 .flex {

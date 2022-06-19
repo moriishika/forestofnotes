@@ -1,5 +1,6 @@
 .navigationBar{
     padding : 20px;
+    background-color: var(--dark-2);
 }
 .navigationBar h1 {
     font-size: 3rem;
