@@ -7,12 +7,14 @@ class NotesApp extends React.Component {
     this.state = {
       notesData: [],
       isStorageSupported: false,
-      notesForm: { title: "", desc: "", status : "active"},
+      notesForm: { title: "", desc: "", status: "active" },
     };
     this.storageKey = "NOTES_DATA";
     this.getNotesData = this.getNotesData.bind(this);
     this.saveNote = this.saveNote.bind(this);
     this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.deleteNote = this.deleteNote.bind(this);
+    this.changeNoteStatus = this.changeNoteStatus.bind(this);
   }
 
   getNotesData() {
@@ -42,12 +44,12 @@ class NotesApp extends React.Component {
 
   saveNote() {
     const newNote = {
-        id :  Date.now(),
-        title : this.state.notesForm.title,
-        desc : this.state.notesForm.desc,
-        createdAt :  Date.now(),
-        status : this.state.notesForm.status
-    }
+      id: Date.now(),
+      title: this.state.notesForm.title,
+      desc: this.state.notesForm.desc,
+      createdAt: Date.now(),
+      status: this.state.notesForm.status,
+    };
     this.setState((previousNotes) => {
       return {
         notesData: [...previousNotes.notesData, newNote],
@@ -60,16 +62,40 @@ class NotesApp extends React.Component {
     );
   }
 
-  updateNote(){
+  // updateNote() {
+  //   this
+  // }
+
+  changeNoteStatus(statusName, noteId) {
+    let updatedNotes = this.state.notesData.map((note) => {
+      if (note.id === noteId) {
+        note.status = statusName;
+        return note;
+      }
+      return note;
+    });
+
+
+    this.setState({
+      notesData : updatedNotes
+    });
+
+    localStorage.setItem(this.storageKey, JSON.stringify(updatedNotes));
 
   }
 
-  changeNoteStatus() {
-    
+  deleteNote(id){
+    let filteredNotes = this.state.notesData.filter((note) => note.id !== id);
+
+    this.setState({notesData : filteredNotes});
+
+    localStorage.setItem(this.storageKey, JSON.stringify(filteredNotes));
   }
 
   onChangeHandler({ target }) {
-    this.setState({ notesForm: { ...this.state.notesForm, [target.name]: target.value } });
+    this.setState({
+      notesForm: { ...this.state.notesForm, [target.name]: target.value },
+    });
   }
 
   render() {
@@ -92,11 +118,15 @@ class NotesApp extends React.Component {
               notesCategory="active"
               notesCategoryTitle="Active Notes"
               notes={this.state.notesData}
+              changeNoteStatus={this.changeNoteStatus}
+              deleteNote={this.deleteNote}
             ></Notes>
             <Notes
               notesCategory="archived"
               notesCategoryTitle="Archived Notes"
               notes={this.state.notesData}
+              changeNoteStatus={this.changeNoteStatus}
+              deleteNote={this.deleteNote}
             ></Notes>
           </Fragment>
         )}
