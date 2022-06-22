@@ -92,6 +92,10 @@ class NotesApp extends React.Component {
     localStorage.setItem(this.storageKey, JSON.stringify(filteredNotes));
   }
 
+  searchNotes() {
+    this.state.notesData.includes()
+  }
+
   onChangeHandler({ target }) {
     this.setState({
       notesForm: { ...this.state.notesForm, [target.name]: target.value },
