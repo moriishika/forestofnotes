@@ -47,7 +47,7 @@ class NotesApp extends React.Component {
       id: Date.now(),
       title: this.state.notesForm.title,
       desc: this.state.notesForm.desc,
-      createdAt: Date.now(),
+      createdAt: new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
       status: this.state.notesForm.status,
     };
 
