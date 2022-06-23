@@ -8,7 +8,7 @@ class NavigationBar extends React.Component{
             <div className="navigationBar flex flex-between ver-center">
                 <h1>Forest of Notes 🏕️</h1>
                 <div>
-                    <input type="text" placeholder="Search Notes"></input>
+                    <input type="text" placeholder="Search Notes" onChange={this.props.searchNotes}></input>
                 </div>
             </div>
         );

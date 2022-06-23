@@ -11,9 +11,27 @@ class Notes extends React.Component {
 
   renderNotes() {
     let notes = [];
-    
+
     this.props.notes.forEach((note) => {
-      if (this.props.notesCategory === note.status) {
+
+      // categorise the note by status and check if searchinput prop is empty
+      if (this.props.notesCategory === note.status && !this.props.searchInput) {
+        notes.push(
+          <Note
+            key={note.id}
+            noteData={note}
+            changeNoteStatus={this.props.changeNoteStatus}
+            deleteNote={this.props.deleteNote}
+          ></Note>
+        );
+      }
+
+      // categorise the note by status and  if the note includes characters from  searchInput prop
+      if (
+        this.props.notesCategory === note.status &&
+        this.props.searchInput &&
+        note.title.toLowerCase().includes(this.props.searchInput.toLowerCase())
+      ) {
         notes.push(
           <Note
             key={note.id}
@@ -25,6 +43,7 @@ class Notes extends React.Component {
       }
     });
 
+    // if the notes array is empty then render a status element and vice versa
     if (!notes.length) {
       return <h1>Tidak ada notes 😢</h1>;
     } else {
