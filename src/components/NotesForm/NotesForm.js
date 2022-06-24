@@ -11,14 +11,10 @@ class NotesForm extends React.Component {
           <textarea
             placeholder="fill it with your ideas ✨"
             className="noteform-desc"
-            name="desc"
+            name="body"
             onChange={this.props.onChangeHandler}
             value={this.props.notesDesc}
           ></textarea>
-          <select name="status" onChange={this.props.onChangeHandler}>
-            <option value="active">Active</option>
-            <option value="archived">Archived</option>
-          </select>
           <button className="noteform-button" onClick={this.props.saveNote}>Save</button>
         </div>
       </div>

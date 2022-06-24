@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { NavigationBar, Notes, NotesForm } from "./components";
+import { getInitialData, showFormattedDate } from "./utils/intialData";
 
 class NotesApp extends React.Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class NotesApp extends React.Component {
     this.state = {
       notesData: [],
       isStorageSupported: false,
-      notesForm: { title: "", desc: "", status: "active" },
+      notesForm: { title: "", body: "", archived: false },
       searchValue: "",
     };
     this.storageKey = "NOTES_DATA";
@@ -30,7 +31,7 @@ class NotesApp extends React.Component {
         });
       } else {
         this.setState({
-          notesData: [],
+          notesData: getInitialData(),
           isStorageSupported: true,
         });
       }
@@ -42,21 +43,25 @@ class NotesApp extends React.Component {
   }
 
   saveNote() {
+    console.log("kok mau");
     //creating a new note object
     const newNote = {
-      id: Date.now(),
+      id: new Date().toISOString(),
       title: this.state.notesForm.title,
-      desc: this.state.notesForm.desc,
-      createdAt: new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
-      status: this.state.notesForm.status,
+      body: this.state.notesForm.body,
+      createdAt: showFormattedDate(new Date().toISOString()),
+      archived: this.state.notesForm.archived,
     };
+ 
 
     this.setState((previousNotes) => {
       return {
-        //add it as the last element 
+        //add it as the last element
         notesData: [...previousNotes.notesData, newNote],
       };
     });
+
+    console.log(this.state.notesData);
 
     //save the note to localstorage
     localStorage.setItem(
@@ -65,11 +70,16 @@ class NotesApp extends React.Component {
     );
   }
 
-  changeNoteStatus(statusName, noteId) {
+  changeNoteStatus(noteId) {
     let updatedNotes = this.state.notesData.map((note) => {
       // if it has the same id then the note status will change
+      console.log(note.id, noteId);
       if (note.id === noteId) {
-        note.status = statusName;
+        if (note.archived) {
+          note.archived = false;
+        } else {
+          note.archived = true;
+        }
         return note;
       }
       return note;
@@ -85,7 +95,6 @@ class NotesApp extends React.Component {
   }
 
   deleteNote(id) {
-
     // filter note who does not have the same id
     let filteredNotes = this.state.notesData.filter((note) => note.id !== id);
 
@@ -121,8 +130,8 @@ class NotesApp extends React.Component {
           saveNote={this.saveNote}
           onChangeHandler={this.onChangeHandler}
           noteTitle={this.state.notesForm.title}
-          noteDesc={this.state.notesForm.desc}
-          noteStatus={this.state.notesForm.status}
+          noteDesc={this.state.notesForm.body}
+          noteStatus={this.state.notesForm.archived}
         ></NotesForm>
         {!this.state.isStorageSupported && (
           <h1>This browser does not support the Storage API 😢</h1>
@@ -130,17 +139,17 @@ class NotesApp extends React.Component {
         {this.state.isStorageSupported && (
           <Fragment>
             <Notes
-              notesCategory="active"
               notesCategoryTitle="Active Notes"
               notes={this.state.notesData}
               changeNoteStatus={this.changeNoteStatus}
+              isActive={false}
               deleteNote={this.deleteNote}
               searchInput={this.state.searchValue}
             ></Notes>
             <Notes
-              notesCategory="archived"
               notesCategoryTitle="Archived Notes"
               notes={this.state.notesData}
+              isActive={true}
               changeNoteStatus={this.changeNoteStatus}
               deleteNote={this.deleteNote}
               searchInput={this.state.searchValue}

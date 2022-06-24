@@ -15,7 +15,8 @@ class Notes extends React.Component {
     this.props.notes.forEach((note) => {
 
       // categorise the note by status and check if searchinput prop is empty
-      if (this.props.notesCategory === note.status && !this.props.searchInput) {
+
+      if (this.props.isActive == note.archived && !this.props.searchInput) {
         notes.push(
           <Note
             key={note.id}
@@ -28,7 +29,7 @@ class Notes extends React.Component {
 
       // categorise the note by status and  if the note includes characters from  searchInput prop
       if (
-        this.props.notesCategory === note.status &&
+        this.props.isActive == note.archived &&
         this.props.searchInput &&
         note.title.toLowerCase().includes(this.props.searchInput.toLowerCase())
       ) {
